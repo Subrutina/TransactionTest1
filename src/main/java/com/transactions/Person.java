@@ -21,11 +21,11 @@ public class Person {
     private String country;
 
     @OneToMany(mappedBy = "sender")
-    private Set<Transaction> sendTransactions = new HashSet<>();
+    private Set<Transaction> sendTransactions;
 
 
     @OneToMany(mappedBy = "reciever")
-    private Set<Transaction> recieveTransactions = new HashSet<>();
+    private Set<Transaction> recieveTransactions;
 
 
     public Person() {
@@ -35,11 +35,12 @@ public class Person {
         this.name = name;
         this.surname = surname;
     }
-    public Person(String jmbg, String name,
+    public Person(String name,
                   String surname,
                   String city,
+                  String country,
                   Integer postalNo,
-                  String country) {
+                  String jmbg) {
         this.jmbg = jmbg;
         this.name = name;
         this.surname = surname;

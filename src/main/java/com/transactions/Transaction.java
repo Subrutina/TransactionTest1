@@ -15,28 +15,30 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    @ManyToOne
+    @Column
+    private Integer senderId;
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn (insertable= false, updatable = false, name="senderId", referencedColumnName  = "primaryK" )
     private Person sender;
 
 
-    @ManyToOne
+    @Column
+    private Integer recieverId;
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn (insertable= false, updatable = false, name="recieverId", referencedColumnName="primaryK")
     private Person reciever;
 
     private Double amount;
     private Currency currency;
 
-
-    public Transaction(Person sender, Person reciever, Double amount, Currency currency) {
+    public Transaction(){}
+    public Transaction(Person sender, Person reciever, Double amount, Currency curr){
         this.sender = sender;
         this.reciever = reciever;
         this.amount = amount;
-        this.currency = currency;
+        this.currency = curr;
     }
 
-    public Transaction() {
-    }
 
     public Integer getId() {
         return id;
