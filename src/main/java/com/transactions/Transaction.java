@@ -15,17 +15,15 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    @Column
-    private Integer senderId;
+
     @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn (insertable= false, updatable = false, name="senderId", referencedColumnName  = "primaryK" )
+    @JoinColumn (insertable= false, updatable = false, referencedColumnName="primaryK")
     private Person sender;
 
 
-    @Column
-    private Integer recieverId;
+
     @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn (insertable= false, updatable = false, name="recieverId", referencedColumnName="primaryK")
+    @JoinColumn (insertable= false, updatable = false, referencedColumnName="primaryK")
     private Person reciever;
 
     private Double amount;
@@ -59,4 +57,16 @@ public class Transaction {
     public Currency getCurrency() {
         return currency;
     }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "id=" + id +
+                ", sender=" + sender +
+                ", reciever=" + reciever +
+                ", amount=" + amount +
+                ", currency=" + currency +
+                '}';
+    }
 }
+

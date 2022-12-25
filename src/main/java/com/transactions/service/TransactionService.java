@@ -2,6 +2,7 @@ package com.transactions.service;
 
 import com.transactions.Person;
 import com.transactions.Transaction;
+import com.transactions.repository.PersonRepository;
 import com.transactions.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,22 +15,31 @@ public class TransactionService {
 
     private final UserService userService;
     private final TransactionRepository transactionRepository;
+    private final PersonRepository personRepository;
 
 
     @Autowired
-    public TransactionService(UserService userService, TransactionRepository transactionRepository) {
+    public TransactionService(UserService userService,
+                              TransactionRepository transactionRepository,
+                              PersonRepository personRepository) {
         this.userService = userService;
         this.transactionRepository = transactionRepository;
+        this.personRepository = personRepository;
     }
 
-    public List<Transaction> getTransactions() {
-        return transactionRepository.findAll();
+    public String getTransactions() {
+        return transactionRepository.findAll().toString();
     }
 
 
     public void addTransaction(Transaction tr) {
 
+        personRepository.save(tr.getReciever());
+        personRepository.save(tr.getSender());
         transactionRepository.save(tr);
+        System.out.println(transactionRepository.findAll());
+        System.out.println("alooooe\n");
+
 
     }
 }

@@ -22,7 +22,7 @@ public class Controller {
     }
 
     @GetMapping
-    public List<Transaction> getTransactions(){
+    public String getTransactions(){
         return transactionService.getTransactions();
     }
 
