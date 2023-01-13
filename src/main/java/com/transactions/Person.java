@@ -3,6 +3,7 @@ package com.transactions;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -109,5 +110,17 @@ public class Person {
                 ", country='" + country + '\'' +
                 '}';
     }
-}
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(primaryK, person.primaryK) && Objects.equals(jmbg, person.jmbg) && Objects.equals(name, person.name) && Objects.equals(surname, person.surname) && Objects.equals(city, person.city) && Objects.equals(postalNo, person.postalNo) && Objects.equals(country, person.country) && Objects.equals(sendTransactions, person.sendTransactions) && Objects.equals(recieveTransactions, person.recieveTransactions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(primaryK, jmbg, name, surname, city, postalNo, country, sendTransactions, recieveTransactions);
+    }
+}

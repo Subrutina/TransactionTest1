@@ -34,8 +34,11 @@ public class TransactionService {
 
     public void addTransaction(Transaction tr) {
 
-        personRepository.save(tr.getReciever());
-        personRepository.save(tr.getSender());
+        if(personRepository.findById(tr.getReciever().getJmbg()).isEmpty()) {
+            System.out.println("usoooo");
+            personRepository.save(tr.getReciever());
+            personRepository.save(tr.getSender());
+        }
         transactionRepository.save(tr);
         System.out.println(transactionRepository.findAll());
         System.out.println("alooooe\n");

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.*;
 import java.util.Currency;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table
@@ -17,13 +18,13 @@ public class Transaction {
 
 
     @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn (insertable= false, updatable = false, referencedColumnName="primaryK")
+    @JoinColumn (insertable= true, updatable = true, referencedColumnName="primaryK")
     private Person sender;
 
 
 
     @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn (insertable= false, updatable = false, referencedColumnName="primaryK")
+    @JoinColumn (insertable= true, updatable = true, referencedColumnName="primaryK")
     private Person reciever;
 
     private Double amount;
@@ -35,8 +36,21 @@ public class Transaction {
         this.reciever = reciever;
         this.amount = amount;
         this.currency = curr;
+
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Transaction that = (Transaction) o;
+        return Objects.equals(id, that.id) && Objects.equals(sender, that.sender) && Objects.equals(reciever, that.reciever) && Objects.equals(amount, that.amount) && Objects.equals(currency, that.currency);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, sender, reciever, amount, currency);
+    }
 
     public Integer getId() {
         return id;
@@ -69,4 +83,3 @@ public class Transaction {
                 '}';
     }
 }
-
