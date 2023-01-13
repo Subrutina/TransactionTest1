@@ -11,7 +11,7 @@ import java.util.Set;
 public class Person {
     @Id
     @Column(name = "primaryK")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer primaryK;
 
     private String jmbg;

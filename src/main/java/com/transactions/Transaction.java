@@ -17,13 +17,13 @@ public class Transaction {
     private Integer id;
 
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn (insertable= true, updatable = true, referencedColumnName="primaryK")
     private Person sender;
 
 
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn (insertable= true, updatable = true, referencedColumnName="primaryK")
     private Person reciever;
 

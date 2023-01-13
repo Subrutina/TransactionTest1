@@ -7,6 +7,7 @@ import com.transactions.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,13 +32,14 @@ public class TransactionService {
         return transactionRepository.findAll().toString();
     }
 
-
+    @Transactional
     public void addTransaction(Transaction tr) {
 
         if(personRepository.findById(tr.getReciever().getJmbg()).isEmpty()) {
-            System.out.println("usoooo");
-            personRepository.save(tr.getReciever());
-            personRepository.save(tr.getSender());
+            personRepository.saveAndFlush(tr.getReciever());
+        }
+        if(personRepository.findById(tr.getSender().getJmbg()).isEmpty()) {
+            personRepository.saveAndFlush(tr.getSender());
         }
         transactionRepository.save(tr);
         System.out.println(transactionRepository.findAll());
