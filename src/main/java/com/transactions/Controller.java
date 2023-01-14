@@ -25,7 +25,7 @@ public class Controller {
         return transactionService.getTransactions();
     }
 
-    @GetMapping("/transactions/{id}")
+    @GetMapping("/clientTransactions/{id}")
     public List<Transaction> getClientTransaction(@PathVariable Integer id){
         return transactionService.getClientTransactions(id);
     }
