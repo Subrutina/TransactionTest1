@@ -35,15 +35,20 @@ public class TransactionService {
     @Transactional
     public void addTransaction(Transaction tr) {
 
-        if(personRepository.findById(tr.getReciever().getJmbg()).isEmpty()) {
-            personRepository.saveAndFlush(tr.getReciever());
+        Optional<Person> sender = personRepository.findById(tr.getSender().getJmbg());
+        Optional<Person> receiver = personRepository.findById(tr.getReciever().getJmbg());
+
+        if(sender.isPresent()){
+            tr.setSender(sender.get());
+        }else{
+            personRepository.save(tr.getSender());
         }
-        if(personRepository.findById(tr.getSender().getJmbg()).isEmpty()) {
-            personRepository.saveAndFlush(tr.getSender());
+        if(receiver.isPresent()){
+            tr.setReciever(receiver.get());
+        }else {
+            personRepository.save(tr.getReciever());
         }
         transactionRepository.save(tr);
-        System.out.println(transactionRepository.findAll());
-        System.out.println("alooooe\n");
 
 
     }

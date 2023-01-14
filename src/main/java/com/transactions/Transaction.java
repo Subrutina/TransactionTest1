@@ -72,6 +72,14 @@ public class Transaction {
         return currency;
     }
 
+    public void setSender(Person sender) {
+        this.sender = sender;
+    }
+
+    public void setReciever(Person reciever) {
+        this.reciever = reciever;
+    }
+
     @Override
     public String toString() {
         return "Transaction{" +
