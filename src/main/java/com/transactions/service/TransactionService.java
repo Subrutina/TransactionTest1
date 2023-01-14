@@ -28,6 +28,9 @@ public class TransactionService {
         this.personRepository = personRepository;
     }
 
+    public List<Transaction> getClientTransactions(Integer id){
+        return transactionRepository.findBySenderIdOrRecieverId(id);
+    }
     public String getTransactions() {
         return transactionRepository.findAll().toString();
     }

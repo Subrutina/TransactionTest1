@@ -15,15 +15,19 @@ public class Controller {
     private TransactionService transactionService;
     private UserService userService;
 
-
     public Controller(TransactionService transactionService, UserService userService) {
         this.transactionService = transactionService;
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/transactions")
     public String getTransactions(){
         return transactionService.getTransactions();
+    }
+
+    @GetMapping("/transactions/{id}")
+    public List<Transaction> getClientTransaction(@PathVariable Integer id){
+        return transactionService.getClientTransactions(id);
     }
 
     @PostMapping
