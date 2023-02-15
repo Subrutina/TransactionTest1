@@ -30,12 +30,15 @@ public class Transaction {
     private Double amount;
     private Currency currency;
 
+    private TransactionStatus status;
+
     public Transaction(){}
     public Transaction(Person sender, Person reciever, Double amount, Currency curr){
         this.sender = sender;
         this.reciever = reciever;
         this.amount = amount;
         this.currency = curr;
+        this.status = TransactionStatus.PENDING;
 
     }
 
@@ -54,6 +57,18 @@ public class Transaction {
 
     public Integer getId() {
         return id;
+    }
+    public Integer getStatus() {
+        if(status.equals(TransactionStatus.PENDING))
+            return 0;
+        else if(status.equals(TransactionStatus.CANCELLED))
+            return 1;
+        else if(status.equals(TransactionStatus.COMPLETED))
+            return 2;
+        else if(status.equals(TransactionStatus.FAILED))
+            return 3;
+        else
+            return -1;
     }
 
     public Person getSender() {
@@ -78,6 +93,10 @@ public class Transaction {
 
     public void setReciever(Person reciever) {
         this.reciever = reciever;
+    }
+
+    public void setStatus(TransactionStatus status) {
+        this.status = status;
     }
 
     @Override
