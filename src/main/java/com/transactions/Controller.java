@@ -34,4 +34,9 @@ public class Controller {
     public void newTransaction(@RequestBody Transaction tr) {
       transactionService.addTransaction(tr);
     }
+
+    @PostMapping("/getMoney")
+    public void recieveMoney(@RequestBody Transaction tr){
+        transactionService.recieveTransaction(tr);
+    }
 }

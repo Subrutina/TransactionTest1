@@ -32,7 +32,9 @@ public class Transaction {
 
     private TransactionStatus status;
 
-    public Transaction(){}
+    public Transaction(){
+        this.status = TransactionStatus.PENDING;
+    }
     public Transaction(Person sender, Person reciever, Double amount, Currency curr){
         this.sender = sender;
         this.reciever = reciever;

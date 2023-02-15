@@ -2,6 +2,7 @@ package com.transactions.service;
 
 import com.transactions.Person;
 import com.transactions.Transaction;
+import com.transactions.TransactionStatus;
 import com.transactions.repository.PersonRepository;
 import com.transactions.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,28 @@ public class TransactionService {
             personRepository.save(tr.getReciever());
         }
         transactionRepository.save(tr);
+
+
+    }
+
+    public void recieveTransaction(Transaction tr) {
+        Optional<Person> receiver = personRepository.findById(tr.getReciever().getJmbg());
+        if(receiver.isEmpty()){
+            personRepository.save(receiver.get());
+        }
+        Optional<Transaction> currTransaction = transactionRepository.findById(tr.getId());
+        if(currTransaction.isPresent()){
+            Integer currStatus = currTransaction.get().getStatus();
+            if(currStatus != 0 ) {
+                //obradi slucajeve
+            }
+            else
+                currTransaction.get().setStatus(TransactionStatus.COMPLETED);
+        }
+        else{
+            //baci izuzetak
+        }
+
 
 
     }
