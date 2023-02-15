@@ -58,18 +58,27 @@ public class TransactionService {
     }
 
     public void recieveTransaction(Transaction tr) {
-        Optional<Person> receiver = personRepository.findById(tr.getReciever().getJmbg());
-        if(receiver.isEmpty()){
-            personRepository.save(receiver.get());
-        }
+
         Optional<Transaction> currTransaction = transactionRepository.findById(tr.getId());
         if(currTransaction.isPresent()){
+            Optional<Person> receiver = personRepository.findById(tr.getReciever().getJmbg());
+            if(receiver.get().getName() != tr.getReciever().getName()){
+                //obradi gresku
+            }
+            if(receiver.get().getSurname() != tr.getReciever().getSurname()){
+                //obradi
+            }
+            if(receiver.get().getJmbg() != tr.getReciever().getJmbg()){
+                //obradi
+            }
             Integer currStatus = currTransaction.get().getStatus();
             if(currStatus != 0 ) {
                 //obradi slucajeve
             }
-            else
-                currTransaction.get().setStatus(TransactionStatus.COMPLETED);
+
+            currTransaction.get().setStatus(TransactionStatus.COMPLETED);
+            transactionRepository.save(currTransaction.get());
+
         }
         else{
             //baci izuzetak
