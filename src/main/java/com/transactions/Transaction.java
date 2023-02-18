@@ -120,4 +120,8 @@ public class Transaction {
                 ", currency=" + currency +
                 '}';
     }
+
+    public void setEndTime(LocalDateTime now) {
+        this.endDate = now;
+    }
 }

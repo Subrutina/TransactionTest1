@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +31,7 @@ public class TransactionService {
     }
 
     public List<Transaction> getClientTransactions(Integer id){
-        return transactionRepository.findBySenderIdOrRecieverId(id);
+        return transactionRepository.findBySenderIdOrReceiverId(id);
     }
     public String getTransactions() {
         return transactionRepository.findAll().toString();
@@ -77,6 +78,7 @@ public class TransactionService {
             }
 
             currTransaction.get().setStatus(TransactionStatus.COMPLETED);
+            currTransaction.get().setEndTime(LocalDateTime.now());
             transactionRepository.save(currTransaction.get());
 
         }
