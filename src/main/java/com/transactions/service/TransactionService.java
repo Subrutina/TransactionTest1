@@ -40,7 +40,7 @@ public class TransactionService {
     public void addTransaction(Transaction tr) {
 
         Optional<Person> sender = personRepository.findById(tr.getSender().getJmbg());
-        Optional<Person> receiver = personRepository.findById(tr.getReciever().getJmbg());
+        Optional<Person> receiver = personRepository.findById(tr.getReceiver().getJmbg());
 
         if(sender.isPresent()){
             tr.setSender(sender.get());
@@ -48,9 +48,9 @@ public class TransactionService {
             personRepository.save(tr.getSender());
         }
         if(receiver.isPresent()){
-            tr.setReciever(receiver.get());
+            tr.setReceiver(receiver.get());
         }else {
-            personRepository.save(tr.getReciever());
+            personRepository.save(tr.getReceiver());
         }
         transactionRepository.save(tr);
 
@@ -61,14 +61,14 @@ public class TransactionService {
 
         Optional<Transaction> currTransaction = transactionRepository.findById(tr.getId());
         if(currTransaction.isPresent()){
-            Optional<Person> receiver = personRepository.findById(tr.getReciever().getJmbg());
-            if(receiver.get().getName() != tr.getReciever().getName()){
+            Optional<Person> receiver = personRepository.findById(tr.getReceiver().getJmbg());
+            if(receiver.get().getName() != tr.getReceiver().getName()){
                 //obradi gresku
             }
-            if(receiver.get().getSurname() != tr.getReciever().getSurname()){
+            if(receiver.get().getSurname() != tr.getReceiver().getSurname()){
                 //obradi
             }
-            if(receiver.get().getJmbg() != tr.getReciever().getJmbg()){
+            if(receiver.get().getJmbg() != tr.getReceiver().getJmbg()){
                 //obradi
             }
             Integer currStatus = currTransaction.get().getStatus();

@@ -1,11 +1,13 @@
 package com.transactions;
 
 
-import org.springframework.stereotype.Service;
+import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Currency;
-import java.util.List;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -25,23 +27,30 @@ public class Transaction {
 
     @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn (insertable= true, updatable = true, referencedColumnName="primaryK")
-    private Person reciever;
+    private Person receiver;
 
     private Double amount;
     private Currency currency;
 
     private TransactionStatus status;
+    private LocalDateTime beginDate;
+    private LocalDateTime endDate;
 
     public Transaction(){
         this.status = TransactionStatus.PENDING;
+        this.beginDate = LocalDateTime.now();
+        this.endDate = null;
+
+
     }
-    public Transaction(Person sender, Person reciever, Double amount, Currency curr){
+    public Transaction(Person sender, Person receiver, Double amount, Currency curr){
         this.sender = sender;
-        this.reciever = reciever;
+        this.receiver = receiver;
         this.amount = amount;
         this.currency = curr;
         this.status = TransactionStatus.PENDING;
-
+        this.beginDate = LocalDateTime.now();
+        this.endDate = null;
     }
 
     @Override
@@ -49,12 +58,12 @@ public class Transaction {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
-        return Objects.equals(id, that.id) && Objects.equals(sender, that.sender) && Objects.equals(reciever, that.reciever) && Objects.equals(amount, that.amount) && Objects.equals(currency, that.currency);
+        return Objects.equals(id, that.id) && Objects.equals(sender, that.sender) && Objects.equals(receiver, that.receiver) && Objects.equals(amount, that.amount) && Objects.equals(currency, that.currency);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, sender, reciever, amount, currency);
+        return Objects.hash(id, sender, receiver, amount, currency);
     }
 
     public Integer getId() {
@@ -77,8 +86,8 @@ public class Transaction {
         return sender;
     }
 
-    public Person getReciever() {
-        return reciever;
+    public Person getReceiver() {
+        return receiver;
     }
 
     public Double getAmount() {
@@ -93,8 +102,8 @@ public class Transaction {
         this.sender = sender;
     }
 
-    public void setReciever(Person reciever) {
-        this.reciever = reciever;
+    public void setReceiver(Person receiver) {
+        this.receiver = receiver;
     }
 
     public void setStatus(TransactionStatus status) {
@@ -106,7 +115,7 @@ public class Transaction {
         return "Transaction{" +
                 "id=" + id +
                 ", sender=" + sender +
-                ", reciever=" + reciever +
+                ", reciever=" + receiver +
                 ", amount=" + amount +
                 ", currency=" + currency +
                 '}';
