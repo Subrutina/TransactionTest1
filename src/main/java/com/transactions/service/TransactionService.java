@@ -3,6 +3,9 @@ package com.transactions.service;
 import com.transactions.Person;
 import com.transactions.Transaction;
 import com.transactions.TransactionStatus;
+import com.transactions.exceptions.PersonNotFoundException;
+import com.transactions.exceptions.TransactionException;
+import com.transactions.exceptions.TransactionNotFoundException;
 import com.transactions.repository.PersonRepository;
 import com.transactions.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,35 +61,48 @@ public class TransactionService {
 
     }
 
-    public void recieveTransaction(Transaction tr) {
+    public void receiveTransaction(Transaction tr) throws TransactionException,
+            TransactionNotFoundException,
+            PersonNotFoundException {
+        Optional<Transaction> optionalTransaction = transactionRepository.findById(tr.getId());
 
-        Optional<Transaction> currTransaction = transactionRepository.findById(tr.getId());
-        if(currTransaction.isPresent()){
-            Optional<Person> receiver = personRepository.findById(tr.getReceiver().getJmbg());
-            if(receiver.get().getName() != tr.getReceiver().getName()){
-                //obradi gresku
-            }
-            if(receiver.get().getSurname() != tr.getReceiver().getSurname()){
-                //obradi
-            }
-            if(receiver.get().getJmbg() != tr.getReceiver().getJmbg()){
-                //obradi
-            }
-            Integer currStatus = currTransaction.get().getStatus();
-            if(currStatus != 0 ) {
-                //obradi slucajeve
-            }
-
-            currTransaction.get().setStatus(TransactionStatus.COMPLETED);
-            currTransaction.get().setEndTime(LocalDateTime.now());
-            transactionRepository.save(currTransaction.get());
-
-        }
-        else{
-            //baci izuzetak
+        if (!optionalTransaction.isPresent()) {
+            throw new TransactionNotFoundException("Transaction with id " + tr.getId() + " not found");
         }
 
+        Transaction transaction = optionalTransaction.get();
 
+        Optional<Person> optionalReceiver = personRepository.findById(tr.getReceiver().getJmbg());
 
+        if (!optionalReceiver.isPresent()) {
+            throw new PersonNotFoundException("Receiver with JMBG " + tr.getReceiver().getJmbg() + " not found");
+        }
+
+        Person receiver = optionalReceiver.get();
+
+        if (!receiver.getName().equals(tr.getReceiver().getName())) {
+            throw new TransactionException("Name not matching the transaction information");
+        }
+
+        if (!receiver.getSurname().equals(tr.getReceiver().getSurname())) {
+            throw new TransactionException("Surname not matching the transaction information");
+        }
+
+        if (!transaction.isPending()) {
+            if(transaction.isFailed()){
+                throw new TransactionException("Transaction is failed.");
+            }
+            else if(transaction.isCancelled()){
+                throw new TransactionException("Transaction is cancelled");
+            }
+            else if(transaction.isComplete()){
+                throw  new TransactionException("Transcation is already complete");
+            }
+        }
+
+        transaction.setStatus(TransactionStatus.COMPLETED);
+        transaction.setEndTime(LocalDateTime.now());
+        transactionRepository.save(transaction);
     }
+
 }

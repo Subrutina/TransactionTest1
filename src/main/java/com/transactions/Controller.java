@@ -1,6 +1,9 @@
 package com.transactions;
 
 
+import com.transactions.exceptions.PersonNotFoundException;
+import com.transactions.exceptions.TransactionException;
+import com.transactions.exceptions.TransactionNotFoundException;
 import com.transactions.repository.TransactionRepository;
 import com.transactions.service.TransactionService;
 import com.transactions.service.UserService;
@@ -36,7 +39,7 @@ public class Controller {
     }
 
     @PostMapping("/getMoney")
-    public void recieveMoney(@RequestBody Transaction tr){
-        transactionService.recieveTransaction(tr);
+    public void receiveMoney(@RequestBody Transaction tr) throws TransactionException, PersonNotFoundException, TransactionNotFoundException {
+        transactionService.receiveTransaction(tr);
     }
 }

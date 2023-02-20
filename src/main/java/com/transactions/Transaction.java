@@ -81,7 +81,18 @@ public class Transaction {
         else
             return -1;
     }
-
+    public boolean isPending(){
+        return status == TransactionStatus.PENDING ? true : false;
+    }
+    public boolean isCancelled(){
+        return status == TransactionStatus.CANCELLED ? true : false;
+    }
+    public boolean isComplete(){
+        return status == TransactionStatus.COMPLETED ? true : false;
+    }
+    public boolean isFailed(){
+        return status == TransactionStatus.FAILED ? true : false;
+    }
     public Person getSender() {
         return sender;
     }
