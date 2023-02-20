@@ -4,6 +4,7 @@ package com.transactions;
 import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Currency;
@@ -134,5 +135,13 @@ public class Transaction {
 
     public void setEndTime(LocalDateTime now) {
         this.endDate = now;
+    }
+
+    public LocalDateTime getBeginDate() {
+        return beginDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
     }
 }

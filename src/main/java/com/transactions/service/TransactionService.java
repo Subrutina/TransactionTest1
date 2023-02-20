@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionService {
@@ -36,6 +37,12 @@ public class TransactionService {
     public List<Transaction> getClientTransactions(Integer id){
         return transactionRepository.findBySenderIdOrReceiverId(id);
     }
+    public List<Transaction> getTransactionsBetween(LocalDateTime startDate, LocalDateTime endDate) {
+        return transactionRepository.findAll().stream()
+                .filter(transaction -> transaction.getBeginDate().isAfter(startDate) && transaction.getBeginDate().isBefore(endDate))
+                .collect(Collectors.toList());
+    }
+
     public String getTransactions() {
         return transactionRepository.findAll().toString();
     }
