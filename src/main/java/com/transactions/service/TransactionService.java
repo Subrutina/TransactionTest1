@@ -38,9 +38,7 @@ public class TransactionService {
         return transactionRepository.findBySenderIdOrReceiverId(id);
     }
     public List<Transaction> getTransactionsBetween(LocalDateTime startDate, LocalDateTime endDate) {
-        return transactionRepository.findAll().stream()
-                .filter(transaction -> transaction.getBeginDate().isAfter(startDate) && transaction.getBeginDate().isBefore(endDate))
-                .collect(Collectors.toList());
+        return transactionRepository.findByDate(startDate, endDate);
     }
 
     public String getTransactions() {

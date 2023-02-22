@@ -36,11 +36,13 @@ public class Transaction {
     private TransactionStatus status;
     private LocalDateTime beginDate;
     private LocalDateTime endDate;
+    private LocalDateTime lastModified;
 
     public Transaction(){
         this.status = TransactionStatus.PENDING;
         this.beginDate = LocalDateTime.now();
         this.endDate = null;
+        this.lastModified = LocalDateTime.now();
 
 
     }
@@ -51,6 +53,8 @@ public class Transaction {
         this.currency = curr;
         this.status = TransactionStatus.PENDING;
         this.beginDate = LocalDateTime.now();
+        this.lastModified = LocalDateTime.now();
+
         this.endDate = null;
     }
 
@@ -135,6 +139,8 @@ public class Transaction {
 
     public void setEndTime(LocalDateTime now) {
         this.endDate = now;
+        this.lastModified = LocalDateTime.now();
+
     }
 
     public LocalDateTime getBeginDate() {

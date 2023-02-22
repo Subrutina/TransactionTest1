@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -14,5 +16,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
     @Query("SELECT t FROM Transaction t WHERE t.sender.id = :id OR t.receiver.id = :id")
     List<Transaction> findBySenderIdOrReceiverId(@Param("id") Integer id);
 
+    @Query("SELECT t FROM Transaction t WHERE t.lastModified BETWEEN :from and :to")
+    List<Transaction> findByDate(@Param("from") LocalDateTime fromDate,
+                                 @Param("to") LocalDateTime toDate);
 }
 
