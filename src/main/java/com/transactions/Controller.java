@@ -28,6 +28,10 @@ public class Controller {
         this.userService = userService;
     }
 
+    @GetMapping("/clientTransactions")
+    public List<Transaction> getClientTransactions(@RequestParam("id") String id){
+        return transactionService.getClientTransactions(id);
+    }
     @GetMapping("/transactions")
     public String getTransactions(){
         return transactionService.getTransactions();
@@ -43,10 +47,6 @@ public class Controller {
         return transactionService.getTransactionsBetween(fromDate, toDate);
 
     }
-    @GetMapping("/clientTransactions/{id}")
-    public List<Transaction> getClientTransaction(@PathVariable Integer id){
-        return transactionService.getClientTransactions(id);
-    }
 
     @PostMapping
     public void newTransaction(@RequestBody Transaction tr) {
@@ -54,7 +54,7 @@ public class Controller {
     }
 
     @PostMapping("/getMoney")
-    public void receiveMoney(@RequestBody Transaction tr) throws TransactionException, PersonNotFoundException, TransactionNotFoundException {
-        transactionService.receiveTransaction(tr);
+    Transaction receiveMoney(@RequestBody Transaction tr) throws TransactionException, PersonNotFoundException, TransactionNotFoundException {
+        return transactionService.receiveTransaction(tr);
     }
 }

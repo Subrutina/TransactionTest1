@@ -34,7 +34,7 @@ public class TransactionService {
         this.personRepository = personRepository;
     }
 
-    public List<Transaction> getClientTransactions(Integer id){
+    public List<Transaction> getClientTransactions(String id){
         return transactionRepository.findBySenderIdOrReceiverId(id);
     }
     public List<Transaction> getTransactionsBetween(LocalDateTime startDate, LocalDateTime endDate) {
@@ -66,7 +66,7 @@ public class TransactionService {
 
     }
 
-    public void receiveTransaction(Transaction tr) throws TransactionException,
+    public Transaction receiveTransaction(Transaction tr) throws TransactionException,
             TransactionNotFoundException,
             PersonNotFoundException {
         Optional<Transaction> optionalTransaction = transactionRepository.findById(tr.getId());
@@ -107,7 +107,7 @@ public class TransactionService {
 
         transaction.setStatus(TransactionStatus.COMPLETED);
         transaction.setEndTime(LocalDateTime.now());
-        transactionRepository.save(transaction);
+        return transactionRepository.save(transaction);
     }
 
 }

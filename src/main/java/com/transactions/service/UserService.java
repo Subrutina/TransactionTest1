@@ -21,10 +21,12 @@ public class UserService {
     public List<Person> getUsers(){
         return personRepository.findAll();
     }
-    public Optional<Person> getUserByJMBG(String jmbg){
-        System.out.println(personRepository.findById(jmbg));
+    public Optional<Person> getUserByJMBG(Integer jmbg){
         return personRepository.findById(jmbg);
     }
+
+
+
 
     public void addUser(Person p ) {
         personRepository.save(p);
